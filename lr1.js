@@ -25,6 +25,7 @@ var pd = process.argv[2];\
 var path = require('path');\
 \
 getDirectory(pd);\
+var txtDirectory = createDir(pd);\
 \
 function getDirectory(path)\
 {\
@@ -46,6 +47,25 @@ function getDirectory(path)\
             });\
         });\
     });}\
+\
+    function createDir(path)\
+{\
+        var splitPath = path.split('/');\
+        var nameDirectory = splitPath.pop();\
+        if(nameDirectory == '')\
+        {\
+            nameDirectory = splitPath.pop();\
+        }\
+        var newDirectory = path + '/' + nameDirectory;\
+        fs.mkdir(newDirectory, function (error)\
+        {\
+        if (error)\
+        {\
+            console.error();\
+        }\
+        });\
+    return newDirectory;\
+};\
 ";
 
 

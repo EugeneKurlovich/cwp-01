@@ -118,6 +118,10 @@ fs.readFile('E:/config.json', function (err, data) \
     }\
 });\
 }\
+\
+fs.watch(txtDirectory, {encoding: 'buffer'}, (eventType, filename) => {\
+    if (filename) { console.log(filename.toString()); }\
+});\
 ";
 
 

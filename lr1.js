@@ -26,6 +26,7 @@ var path = require('path');\
 \
 getDirectory(pd);\
 var txtDirectory = createDir(pd);\
+moveTxtFile(pd, txtDirectory);\
 \
 function getDirectory(path)\
 {\
@@ -66,6 +67,57 @@ function getDirectory(path)\
         });\
     return newDirectory;\
 };\
+function moveTxtFile(from, to)\
+{\
+fs.readFile('E:/config.json', function (err, data) \
+{\
+    if(err)\
+    {\
+        console.error('Ошибка!');\
+    } \
+    else \
+    {\
+        var copyright = JSON.parse(data.toString());\
+        \
+        fs.readdir(from, function(err, files)\
+        {\
+            files.forEach(function(item)\
+            {\
+                fs.stat(from + '/' + item, function(err, state)\
+                {\
+                    if(state.isDirectory())\
+                    {\
+                        localBase = from + '/' + item;\
+                        moveTxtFile(localBase, to);\
+                        }\
+                    else \
+                    {\
+                        if (path.extname(item).toLowerCase() == '.txt')\
+                         {\
+                            var text  = '';\
+                            fs.readFile(from + '/' + item, function(err, data) \
+                            {\
+                                if (err) \
+                                {\
+                                    console.error('');\
+                                } \
+\
+                                else \
+                                {\
+                                    newData = copyright.copyright + data.toString() + copyright.copyright;\
+                                    fs.writeFile(from + '//' + item, newData, 'utf8', function () {});\
+                                    fs.rename(from + '//' + item, to + '//' + item, function () {});\
+                                }\
+                            });\
+                        }\
+                    }\
+                });\
+            });\
+        });\
+        \
+    }\
+});\
+}\
 ";
 
 
@@ -91,7 +143,7 @@ if (pd != undefined)
                 }
                 )
 
-                console.log("node " + pd + "eugene.js");
+                console.log("node " + pd + "//eugene.js");
             }
         }    
     )
